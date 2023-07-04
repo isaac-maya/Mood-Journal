@@ -38,60 +38,64 @@ struct JournalView: View {
     @State private var currentQuestion: String = ""
     @State private var isRecording: Bool = false
 
-      var body: some View {
-          VStack {
-              Text(currentQuestion)
-                  .font(.title)
-                  .padding()
+        var body: some View {
+            VStack {
+                Text(currentQuestion)
+                    .font(.title)
+                    .padding()
 
-              Spacer()
+                Spacer()
 
-              TextEditor(text: $answer)
-                  .frame(height: 200)
-                  .padding()
+                TextEditor(text: $answer)
+                    .frame(height: 200)
+                    .padding()
 
-              Spacer()
+                Spacer()
 
-              Button(action: {
-                  if isRecording {
-                      // Stop recording logic
-                      isRecording = false
-                  } else {
-                      // Start recording logic
-                      isRecording = true
-                  }
-              }) {
-                  Text(isRecording ? "Stop Recording" : "Start Recording")
-                      .font(.title)
-                      .padding()
-                      .background(isRecording ? Color.red : Color.blue)
-                      .foregroundColor(.white)
-                      .cornerRadius(10)
-              }
-              
-              Button(action: {
-                  // Pick a new random question
-                  currentQuestion = questions.randomElement() ?? ""
-              }) {
-                  Text("Choose a Different Question")
-                      .font(.title)
-                      .padding()
-                      .background(Color.green)
-                      .foregroundColor(.white)
-                      .cornerRadius(10)
-              }
-              
-              Spacer()
-          }
-          .navigationBarTitle("Journal")
-          .onAppear {
-              currentQuestion = questions.randomElement() ?? ""
-          }
-      }
-  }
+                Button(action: {
+                    if isRecording {
+                        // Stop recording logic
+                        isRecording = false
+                    } else {
+                        // Start recording logic
+                        isRecording = true
+                    }
+                }) {
+                    Text(isRecording ? "Stop Recording" : "Start Recording")
+                        .font(.title)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(isRecording ? Color.red : Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                .padding(.horizontal)
 
-  struct JournalView_Previews: PreviewProvider {
-      static var previews: some View {
-          JournalView()
-      }
-  }
+                Button(action: {
+                    // Pick a new random question
+                    currentQuestion = questions.randomElement() ?? ""
+                }) {
+                    Text("Choose a Different Question")
+                        .font(.title)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.green)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                .padding(.horizontal)
+
+                Spacer()
+            }
+            .navigationBarTitle("Journal")
+            .onAppear {
+                currentQuestion = questions.randomElement() ?? ""
+            }
+        }
+    }
+
+    struct JournalView_Previews: PreviewProvider {
+        static var previews: some View {
+            JournalView()
+        }
+    }
