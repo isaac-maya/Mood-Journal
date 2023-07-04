@@ -1,5 +1,9 @@
 import SwiftUI
 
+enum Mode {
+    case journal, moodGauge
+}
+
 struct ContentView: View {
     @State private var selectedMode: Mode?
 
@@ -32,10 +36,8 @@ struct ContentView: View {
                 .background(
                     NavigationLink(
                         destination: JournalView(),
-                        isActive: Binding<Bool>(
-                            get: { selectedMode == .journal },
-                            set: { _ in }
-                        ),
+                        tag: Mode.journal,
+                        selection: $selectedMode,
                         label: {
                             EmptyView()
                         }
@@ -66,15 +68,13 @@ struct ContentView: View {
                 .background(
                     NavigationLink(
                         destination: MoodGaugeView(),
-                        isActive: Binding<Bool>(
-                            get: { selectedMode == .moodGauge },
-                            set: { _ in }
-                        ),
+                        tag: Mode.moodGauge,
+                        selection: $selectedMode,
                         label: {
                             EmptyView()
                         }
                     )
-                    .isDetailLink(false) // Add this line to fix the navigation issue
+                    .isDetailLink(false)
                 )
 
                 Spacer()
@@ -86,12 +86,9 @@ struct ContentView: View {
     }
 }
 
-enum Mode {
-    case journal, moodGauge
-}
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
 }
+
