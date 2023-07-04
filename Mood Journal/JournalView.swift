@@ -1,4 +1,84 @@
 import SwiftUI
+import Speech
+
+class SpeechRecognitionManager: ObservableObject {
+    private let audioEngine = AVAudioEngine()
+    private let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))
+    private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+    private var recognitionTask: SFSpeechRecognitionTask?
+
+    @Published var isRecording = false
+    @Published var convertedText = ""
+
+    init() {
+        prepareSpeechRecognition()
+    }
+
+    private func prepareSpeechRecognition() {
+        SFSpeechRecognizer.requestAuthorization { [weak self] authStatus in
+            guard let self = self else { return }
+            if authStatus != .authorized {
+                print("Speech recognition authorization denied.")
+            }
+        }
+    }
+
+    func startRecording() {
+        guard let recognizer = speechRecognizer else {
+            print("Speech recognizer not available.")
+            return
+        }
+
+        if recognitionTask != nil {
+            recognitionTask?.cancel()
+            recognitionTask = nil
+        }
+
+        recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
+        guard let recognitionRequest = recognitionRequest else {
+            print("Unable to create recognition request.")
+            return
+        }
+
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
+            try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+        } catch {
+            print("Audio session setup error: \(error.localizedDescription)")
+        }
+
+        let inputNode = audioEngine.inputNode
+        let recognitionRequestFormat = inputNode.outputFormat(forBus: 0)
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recognitionRequestFormat) { buffer, _ in
+            recognitionRequest.append(buffer)
+        }
+
+        audioEngine.prepare()
+        do {
+            try audioEngine.start()
+            isRecording = true
+        } catch {
+            print("Audio engine start error: \(error.localizedDescription)")
+        }
+
+        recognitionTask = recognizer.recognitionTask(with: recognitionRequest) { [weak self] result, error in
+            guard let self = self else { return }
+            if let result = result {
+                let bestTranscription = result.bestTranscription
+                self.convertedText = bestTranscription.formattedString
+            } else if let error = error {
+                print("Recognition task error: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    func stopRecording() {
+        audioEngine.stop()
+        recognitionRequest?.endAudio()
+        isRecording = false
+    }
+}
 
 struct JournalView: View {
     @State private var answer: String = ""
@@ -35,67 +115,75 @@ struct JournalView: View {
         "Are you open to seeking professional guidance or support to improve your mental well-being?",
         // Add more questions here if needed
     ]
-    @State private var currentQuestion: String = ""
-    @State private var isRecording: Bool = false
 
-        var body: some View {
-            VStack {
-                Text(currentQuestion)
+    @State private var currentQuestion: String = ""
+
+    @ObservedObject private var speechRecognitionManager = SpeechRecognitionManager()
+
+    var body: some View {
+        VStack {
+            Text(currentQuestion)
+                .font(.title)
+                .padding()
+
+            Spacer()
+
+            TextEditor(text: $answer)
+                .frame(height: 200)
+                .padding()
+
+            Spacer()
+
+            Button(action: {
+                if speechRecognitionManager.isRecording {
+                    speechRecognitionManager.stopRecording()
+                } else {
+                    speechRecognitionManager.startRecording()
+                }
+            }) {
+                Text(speechRecognitionManager.isRecording ? "Stop Recording" : "Start Recording")
                     .font(.title)
                     .padding()
-
-                Spacer()
-
-                TextEditor(text: $answer)
-                    .frame(height: 200)
-                    .padding()
-
-                Spacer()
-
-                Button(action: {
-                    if isRecording {
-                        // Stop recording logic
-                        isRecording = false
-                    } else {
-                        // Start recording logic
-                        isRecording = true
-                    }
-                }) {
-                    Text(isRecording ? "Stop Recording" : "Start Recording")
-                        .font(.title)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(isRecording ? Color.red : Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-                .padding(.horizontal)
-
-                Button(action: {
-                    // Pick a new random question
-                    currentQuestion = questions.randomElement() ?? ""
-                }) {
-                    Text("Choose a Different Question")
-                        .font(.title)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-                .padding(.horizontal)
-
-                Spacer()
+                    .frame(maxWidth: .infinity)
+                    .background(speechRecognitionManager.isRecording ? Color.red : Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
             }
-            .navigationBarTitle("Journal")
-            .onAppear {
+            .padding(.horizontal)
+
+            Button(action: {
+                // Pick a new random question
                 currentQuestion = questions.randomElement() ?? ""
+            }) {
+                Text("Choose a Different Question")
+                    .font(.title)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.green)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
             }
-        }
-    }
+            .padding(.horizontal)
 
-    struct JournalView_Previews: PreviewProvider {
-        static var previews: some View {
-            JournalView()
+            Spacer()
+
+            Text("Converted Text:")
+                .font(.headline)
+            Text(speechRecognitionManager.convertedText)
+                .padding()
+
+            Spacer()
+        }
+        .navigationBarTitle("Journal")
+        .onAppear {
+            currentQuestion = questions.randomElement() ?? ""
         }
     }
+}
+
+struct JournalView_Previews: PreviewProvider {
+    static var previews: some View {
+        JournalView()
+    }
+}
+
