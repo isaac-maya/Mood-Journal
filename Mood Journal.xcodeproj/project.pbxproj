@@ -14,6 +14,8 @@
 		3BD5E33F2A53B13500461E29 /* Mood_JournalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD5E33E2A53B13500461E29 /* Mood_JournalTests.swift */; };
 		3BD5E3492A53B13500461E29 /* Mood_JournalUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD5E3482A53B13500461E29 /* Mood_JournalUITests.swift */; };
 		3BD5E34B2A53B13500461E29 /* Mood_JournalUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD5E34A2A53B13500461E29 /* Mood_JournalUITestsLaunchTests.swift */; };
+		3BD5E3592A53B1B700461E29 /* JournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD5E3572A53B1B700461E29 /* JournalView.swift */; };
+		3BD5E35A2A53B1B700461E29 /* MoodGaugeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD5E3582A53B1B700461E29 /* MoodGaugeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,8 @@
 		3BD5E3442A53B13500461E29 /* Mood JournalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mood JournalUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BD5E3482A53B13500461E29 /* Mood_JournalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mood_JournalUITests.swift; sourceTree = "<group>"; };
 		3BD5E34A2A53B13500461E29 /* Mood_JournalUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mood_JournalUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		3BD5E3572A53B1B700461E29 /* JournalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JournalView.swift; sourceTree = "<group>"; };
+		3BD5E3582A53B1B700461E29 /* MoodGaugeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoodGaugeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +100,8 @@
 			children = (
 				3BD5E32D2A53B13400461E29 /* Mood_JournalApp.swift */,
 				3BD5E32F2A53B13400461E29 /* ContentView.swift */,
+				3BD5E3572A53B1B700461E29 /* JournalView.swift */,
+				3BD5E3582A53B1B700461E29 /* MoodGaugeView.swift */,
 				3BD5E3312A53B13500461E29 /* Assets.xcassets */,
 				3BD5E3332A53B13500461E29 /* Preview Content */,
 			);
@@ -257,6 +263,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BD5E3592A53B1B700461E29 /* JournalView.swift in Sources */,
+				3BD5E35A2A53B1B700461E29 /* MoodGaugeView.swift in Sources */,
 				3BD5E3302A53B13400461E29 /* ContentView.swift in Sources */,
 				3BD5E32E2A53B13400461E29 /* Mood_JournalApp.swift in Sources */,
 			);

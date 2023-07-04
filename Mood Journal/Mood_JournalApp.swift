@@ -2,7 +2,7 @@
 //  Mood_JournalApp.swift
 //  Mood Journal
 //
-//  Created by Happy Gilmore on 7/3/23.
+//  Created by Isaac Maya on 7/3/23.
 //
 
 import SwiftUI
@@ -15,3 +15,4 @@ struct Mood_JournalApp: App {
         }
     }
 }
+
