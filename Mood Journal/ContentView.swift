@@ -74,6 +74,7 @@ struct ContentView: View {
                             EmptyView()
                         }
                     )
+                    .isDetailLink(false) // Add this line to fix the navigation issue
                 )
 
                 Spacer()
@@ -94,5 +95,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
-
