@@ -1,5 +1,6 @@
 import SwiftUI
 import Speech
+import AVFoundation
 
 class SpeechRecognitionManager: ObservableObject {
     private let audioEngine = AVAudioEngine()
@@ -42,7 +43,7 @@ class SpeechRecognitionManager: ObservableObject {
 
         let audioSession = AVAudioSession.sharedInstance()
         do {
-            try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
+            try audioSession.setCategory(.record, mode: .measurement, policy: .longFormAudio, options: .duckOthers)
             try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
         } catch {
             print("Audio session setup error: \(error.localizedDescription)")
@@ -126,6 +127,13 @@ struct JournalView: View {
                 .font(.title)
                 .padding()
 
+            Text("Converted Text:")
+                .font(.headline)
+                .padding(.top)
+
+            Text(speechRecognitionManager.convertedText)
+                .padding(.horizontal)
+
             Spacer()
 
             TextEditor(text: $answer)
@@ -166,13 +174,6 @@ struct JournalView: View {
             .padding(.horizontal)
 
             Spacer()
-
-            Text("Converted Text:")
-                .font(.headline)
-            Text(speechRecognitionManager.convertedText)
-                .padding()
-
-            Spacer()
         }
         .navigationBarTitle("Journal")
         .onAppear {
@@ -180,10 +181,3 @@ struct JournalView: View {
         }
     }
 }
-
-struct JournalView_Previews: PreviewProvider {
-    static var previews: some View {
-        JournalView()
-    }
-}
-
