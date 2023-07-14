@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum Mode {
-    case journal, moodGauge
+    case journal, moodGauge, calendar
 }
 
 struct ContentView: View {
@@ -77,6 +77,39 @@ struct ContentView: View {
                     .isDetailLink(false)
                 )
 
+                Button(action: {
+                    selectedMode = .calendar
+                }) {
+                    VStack {
+                        Text("Calendar")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                        Text("View your mood history")
+                            .font(.subheadline)
+                            .foregroundColor(.white)
+                            .opacity(0.8)
+                            .multilineTextAlignment(.center)
+                            .padding(.top, 4)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 120)
+                    .background(Color.orange)
+                    .cornerRadius(10)
+                }
+                .padding()
+                .background(
+                    NavigationLink(
+                        destination: CalendarView(),
+                        tag: Mode.calendar,
+                        selection: $selectedMode,
+                        label: {
+                            EmptyView()
+                        }
+                    )
+                    .isDetailLink(false)
+                )
+
                 Spacer()
             }
             .padding()
@@ -91,4 +124,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B1902452A61F6DE00AB7D3D /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1902442A61F6DE00AB7D3D /* CalendarView.swift */; };
 		3BD5E32E2A53B13400461E29 /* Mood_JournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD5E32D2A53B13400461E29 /* Mood_JournalApp.swift */; };
 		3BD5E3302A53B13400461E29 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD5E32F2A53B13400461E29 /* ContentView.swift */; };
 		3BD5E3322A53B13500461E29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BD5E3312A53B13500461E29 /* Assets.xcassets */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B1902442A61F6DE00AB7D3D /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		3BD5E32A2A53B13400461E29 /* Mood Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mood Journal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BD5E32D2A53B13400461E29 /* Mood_JournalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mood_JournalApp.swift; sourceTree = "<group>"; };
 		3BD5E32F2A53B13400461E29 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 				3BD5E32D2A53B13400461E29 /* Mood_JournalApp.swift */,
 				3BD5E32F2A53B13400461E29 /* ContentView.swift */,
 				3BD5E3572A53B1B700461E29 /* JournalView.swift */,
+				3B1902442A61F6DE00AB7D3D /* CalendarView.swift */,
 				3BD5E3582A53B1B700461E29 /* MoodGaugeView.swift */,
 				3BD5E3312A53B13500461E29 /* Assets.xcassets */,
 				3BD5E3332A53B13500461E29 /* Preview Content */,
@@ -263,6 +266,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B1902452A61F6DE00AB7D3D /* CalendarView.swift in Sources */,
 				3BD5E3592A53B1B700461E29 /* JournalView.swift in Sources */,
 				3BD5E35A2A53B1B700461E29 /* MoodGaugeView.swift in Sources */,
 				3BD5E3302A53B13400461E29 /* ContentView.swift in Sources */,
